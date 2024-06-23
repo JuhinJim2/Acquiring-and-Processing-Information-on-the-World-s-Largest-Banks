@@ -15,6 +15,7 @@ table_name = 'Largest_banks'
 csv_path = r'C:\Users\audre\OneDrive\Desktop\Banking E2E\Largest_banks_data.csv'
 url = 'https://en.wikipedia.org/wiki/List_of_largest_banks'
 rate_csv = r'C:\Users\audre\OneDrive\Desktop\Banking E2E\exchange_rate.csv'
+target_file = "transformed_data.csv"
 
 #Initialize a function to log the progress of the code at different stages in a file
 log_file = 'code_log.txt'
@@ -43,7 +44,7 @@ def extract():
             col = row.find_all('td')
             if len(col) != 0:
                 data_dict = {'Name': col[1].get_text(strip=True),
-                             'Market Cap in USB Billions': col[2].get_text(strip=True)}
+                             'Market Cap in USD Billions': col[2].get_text(strip=True)}
                 df1 = pd.DataFrame(data_dict, index=[0])
                 df = pd.concat([df,df1], ignore_index = True)
                 count+=1
@@ -65,11 +66,15 @@ def transform(data, rate_csv):
     data['INR'] = round(data['Market Cap in USD Billions'] * rates.loc[rates['Currency'] == 'INR', 'Rate'].values[0], 2)
 
     return data
+#Initialize a function to load the data into a CSV file
+def load_data(target_file, transformed_data):
+    transformed_data.to_csv(target_file,index=False)
+
 
 # Log declared known values
 log_progress("Preliminaries complete. Initating ETL process")
 
-# Log the call of the extract() function
+# Log the call of the extract() function to extract data
 extracted_data = extract()
 log_progress("Data extraction complete. Initiating Transformation process")
 
@@ -77,9 +82,10 @@ log_progress("Data extraction complete. Initiating Transformation process")
 transformed_data = transform(extracted_data, rate_csv)
 log_progress("Data transformation complete. Initiating data transfer to a CSV file")
 
-print(transformed_data)
-# Load the extracted data
-# df.to_csv(csv_path)
+# Load the transformed data into a CSV file
+load_data(target_file, transformed_data)
+log_progress("Data loaded into a CSV file, data transfer complete")
+
 
 
 # #Log the call for the transform() function
