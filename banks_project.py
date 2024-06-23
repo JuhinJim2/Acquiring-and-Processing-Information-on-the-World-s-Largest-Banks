@@ -9,14 +9,11 @@ from datetime import datetime
 #Set the working directory here:
 os.chdir(r'C:\Users\audre\OneDrive\Desktop\Banking E2E')
 
-url = 'https://en.wikipedia.org/wiki/List_of_largest_banks'
+#Initialize variables
 db_name = 'Banks.db'
 table_name = 'Largest_banks'
 csv_path = r'C:\Users\audre\OneDrive\Desktop\Banking E2E\Largest_banks_data.csv'
-df = pd.DataFrame(columns=['Name','MC_USD_Billion'])
-count = 0
-
-
+url = 'https://en.wikipedia.org/wiki/List_of_largest_banks'
 
 #Initialize a function to log the progress of the code at different stages in a file
 log_file = 'code_log.txt'
@@ -29,12 +26,14 @@ def log_progress(message):
         f.write(timestamp + ',' + message + '\n')
 
 #Initialize a function to extract the data from a webpage
-def extract(url):
+def extract():
     html_page = requests.get(url).text
     data = BeautifulSoup(html_page,'html_parser')
 
     tables = data.find_all('table')
     rows = tables[2].find_all('tr')
+
+    count = 0
 
     for row in rows:
         if count < 10:
@@ -47,6 +46,7 @@ def extract(url):
                 count+=1
         else:
             break
+    
     return df
 
 # Log declared known values
@@ -56,6 +56,10 @@ log_progress("Preliminaries complete. Initating ETL process")
 extracted_data = extract()
 log_progress("Data extraction complete. Initiating Transformation process")
 
-#Log the call for the transform() function
-transformed = transform()
-log_progress("Data transformation complete. Initiating Loading Process")
+# Load the extracted data
+df.to_csv(csv_path)
+
+
+# #Log the call for the transform() function
+# transformed = transform()
+# log_progress("Data transformation complete. Initiating Loading Process")
