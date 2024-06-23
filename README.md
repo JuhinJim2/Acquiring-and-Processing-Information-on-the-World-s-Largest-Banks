@@ -1,18 +1,8 @@
-# Python Project for Data Engineering
+# Python Data Engineering Project: Acquiring and Processing Information on the World's Largest Banks
 
-## Introduction
+## Project Objective:
 
-A project assuming the role of a data engineer which deals with real-world data
-problems that dives into:
-
-   1. Extraction of data from multiple sources by reading data files, web scraping, and using APIs
-   2. Transform data as required
-   3. Load the processed data into a desired format or database 
-   4. Create a full ETL pipeline for accessing and processing data derived from public websites
-   5. Create Python modules, run unit test, and pacakge applications
-
-## Project Objectives 
-<img src="Project_sequence.png">
+Create a code that can be used to compile the list of top banks in the world ranked by market capitalization in billion USD. Further, the data needs to be transformed and stored in GBP, EUR and INR as well, in accrodance with the exchange rate information that has been made available thru a CSV file. The processed inforamtion table is to be saved locally in a CSV format and as a database table.
 
 ## ETL Process using Python
 
