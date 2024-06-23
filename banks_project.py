@@ -28,7 +28,9 @@ def log_progress(message):
 #Initialize a function to extract the data from a webpage
 def extract():
     html_page = requests.get(url).text
-    data = BeautifulSoup(html_page,'html_parser')
+    data = BeautifulSoup(html_page,'html.parser')
+
+    df = pd.DataFrame(columns=['Name','Market Cap in USB Billions'])
 
     tables = data.find_all('table')
     rows = tables[2].find_all('tr')
@@ -39,8 +41,8 @@ def extract():
         if count < 10:
             col = row.find_all('td')
             if len(col) != 0:
-                data_dict = {'Name': col[1].contents[1],
-                             'MC_USD_Billion': col[2].contents[2]}
+                data_dict = {'Name': col[1].get_text(strip=True),
+                             'Market Cap in USB Billions': col[2].get_text(strip=True)}
                 df1 = pd.DataFrame(data_dict, index=[0])
                 df = pd.concat([df,df1], ignore_index = True)
                 count+=1
@@ -57,7 +59,7 @@ extracted_data = extract()
 log_progress("Data extraction complete. Initiating Transformation process")
 
 # Load the extracted data
-df.to_csv(csv_path)
+# df.to_csv(csv_path)
 
 
 # #Log the call for the transform() function
