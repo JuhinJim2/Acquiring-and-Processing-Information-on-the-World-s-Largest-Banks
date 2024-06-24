@@ -2,7 +2,7 @@
 
 ## Project Objective:
 
-Develop a program to compile a list of the world's top banks ranked by market capitalization in billion USD. The data should be collected using web scraping techniques from reliable financial websites. This data should then be converted and stored in GBP, EUR, and INR, based on exchange rate information provided in a CSV file. The processed information must be saved locally both as a CSV file and as a database table.
+Develop a program to compile a list of the world's top banks ranked by market capitalization in billion USD. The data should be collected using web scraping techniques from reliable financial websites. This data should then be converted and stored in GBP, EUR, and INR, based on exchange rate information provided in a CSV file. The processed information must be saved locally, both as a CSV file and as a database table.
 
 ## Project Sequence 
 <img src="Project_sequence.png">
@@ -18,6 +18,6 @@ Develop a program to compile a list of the world's top banks ranked by market ca
 
 1. Use the [requests], [BeautifulSoup] and [pandas] libraries to web scrape the contents of a web page.
 2. Analyze the HTML code of a webpage to find relevant information.
-3. Extract the relevant information and save in a CSV file.
-4. Perform transformation on the extracted data that is assigning the correct data attribute, tranforming data into a different format, etc.
-4. Load the dataframe into a SQL Database.
+3. Extract the relevant information and save iy in a CSV file.
+4. Perform transformation on the extracted data such as assigning the correct data attribute, tranforming data into a different format, etc.
+4. Load the CSV and/or dataframe into a SQL Database.
