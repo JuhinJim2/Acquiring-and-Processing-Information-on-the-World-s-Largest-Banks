@@ -2,7 +2,6 @@ import requests
 import os
 import sqlite3
 import pandas as pd
-import numpy as np
 from bs4 import BeautifulSoup
 from datetime import datetime
 
@@ -16,6 +15,7 @@ csv_path = r'C:\Users\audre\OneDrive\Desktop\Banking E2E\Largest_banks_data.csv'
 url = 'https://en.wikipedia.org/wiki/List_of_largest_banks'
 rate_csv = r'C:\Users\audre\OneDrive\Desktop\Banking E2E\exchange_rate.csv'
 target_file = "transformed_data.csv"
+conn = sqlite3.connect(db_name)
 
 #Initialize a function to log the progress of the code at different stages in a file
 log_file = 'code_log.txt'
@@ -61,16 +61,25 @@ def transform(data, rate_csv):
     if 'Rate' not in rates.columns:
         raise ValueError("The 'Rate' column is missing from the rates DataFrame.")
 
+    data['Market Cap in USD Billions'] = data['Market Cap in USD Billions'].str.replace(',', '').astype(float)
     data['EUR'] = round(data['Market Cap in USD Billions'] * rates.loc[rates['Currency'] == 'EUR', 'Rate'].values[0], 2)
     data['GBP'] = round(data['Market Cap in USD Billions'] * rates.loc[rates['Currency'] == 'GBP', 'Rate'].values[0], 2)
     data['INR'] = round(data['Market Cap in USD Billions'] * rates.loc[rates['Currency'] == 'INR', 'Rate'].values[0], 2)
 
     return data
+
 #Initialize a function to load the data into a CSV file
 def load_data(target_file, transformed_data):
     transformed_data.to_csv(target_file,index=False)
+    file_to_load = transformed_data
 
+    return file_to_load
 
+#Initialize a function to load the data into a database
+def load_to_db():
+     file_to_load = pd.read_csv(target_file)
+     file_to_load.to_sql(table_name, conn, if_exists = 'replace', index=False)
+    
 # Log declared known values
 log_progress("Preliminaries complete. Initating ETL process")
 
@@ -86,8 +95,6 @@ log_progress("Data transformation complete. Initiating data transfer to a CSV fi
 load_data(target_file, transformed_data)
 log_progress("Data loaded into a CSV file, data transfer complete")
 
-
-
-# #Log the call for the transform() function
-# transformed = transform()
-# log_progress("Data transformation complete. Initiating Loading Process")
+# Load the CSV file into an initialized Database
+load_to_db()
+log_progress("Data is loaded into a database, queries can now be initialize to interact with db")

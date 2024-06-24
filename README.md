@@ -4,11 +4,11 @@
 
 Create a code that can be used to compile the list of top banks in the world ranked by market capitalization in billion USD. Further, the data needs to be transformed and stored in GBP, EUR and INR as well, in accrodance with the exchange rate information that has been made available thru a CSV file. The processed inforamtion table is to be saved locally in a CSV format and as a database table.
 
-## ETL Process using Python
+## Python Data Engineering Process:
 
-1. Read CSV, JSON, and XML file types.
-2. Extract the required data from the different file types.
-3. Transform data to the required format.
+1. Initialize a logging function that tracks the process step.
+2. Initialize a webscraping function that will parse thru a webpage and collect necessary data.
+3. Initialize a transformation function that will Transform data to the required format.
 4. Save the transformed data in a ready-to-load format, which can be loaded into an RDBMS.
 
 ## Web scraping and Extracting Data using APIs
