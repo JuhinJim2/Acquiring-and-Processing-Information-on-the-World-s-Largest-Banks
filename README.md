@@ -1,4 +1,4 @@
-# Python Data Engineering Project: Acquiring and Processing Information on the World's Largest Banks
+# Python Data Engineering Project: Global Banks Data
 
 ## Project Objective:
 
